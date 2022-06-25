@@ -6,12 +6,16 @@ import {
   StyledForm,
   Input,
   Button,
+  DivHeader,
 } from "./style";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import api from "../../Service/api";
 import { useHistory } from "react-router-dom";
+import LogoImg from "../../assets/Logo.png";
+import { toast } from 'react-toastify';
+
 
 export default function SignUp() {
   const formSchema = yup.object().shape({
@@ -23,22 +27,13 @@ export default function SignUp() {
     password: yup
       .string()
       .required("Required field")
-      .matches(
-        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@!#]{8,}$/,
-        `
-        Must contain: 
-            1 Capital Letter
-            1 Lowercase Letter
-            1 Special character
-            1 Number
-            8 Character minimum
-        `
-      ),
+      .min(6, "6 characters minimum"),
     confirmPassword: yup
       .string()
       .oneOf([yup.ref("password"), null], "Passwords must match"),
-      bio: yup.string().required('Required Field!').min(50, '50 letters minimum'),
-      contact: yup.string().required('Required Field!')
+    bio: yup.string().required("Required Field!"),
+    contact: yup.string().required("Required Field!"),
+    course_module: yup.string().required("Please select an option"),
   });
 
   const {
@@ -49,14 +44,34 @@ export default function SignUp() {
     resolver: yupResolver(formSchema),
   });
 
-  const onSubmitFunction = ({ id, name, email, course_module, bio, contact, created_at, update_at, avatar_url }) => {
-    const user = { id, name, email, course_module, bio, contact, created_at, update_at, avatar_url };
-    console.log(user)
-   
-    // api
-    //   .post("/users", user)
-    //   .then((response) => console.log(response))
-    //   .catch((err) => console.log(err));
+  const onSubmitFunction = ({
+    name,
+    email,
+    course_module,
+    bio,
+    contact,
+    password,
+  }) => {
+    const user = {
+      name,
+      email,
+      course_module,
+      bio,
+      contact,
+      password,
+    };
+
+    api
+      .post("/users", user)
+      .then((response) => {
+        console.log(response);
+        toast.success("Congratulations! Account created!")
+        history.push("/signIn");
+      })
+      .catch((err) => {
+        console.log(err)
+        toast.error("Something went wrong! Verify and try again")
+      });
   };
 
   const history = useHistory();
@@ -67,44 +82,89 @@ export default function SignUp() {
 
   return (
     <Container>
-      <img src="../assets/logo.png" alt="logo" />
-      <ButtonReturn onClick={()=> handleClick('/signIn')}>Return</ButtonReturn>
+      <DivHeader>
+        <img src={LogoImg} alt="logo" />
+        <ButtonReturn onClick={() => handleClick("/signIn")}>
+          Return
+        </ButtonReturn>
+      </DivHeader>
+
       <ContainerForm onSubmit={handleSubmit(onSubmitFunction)}>
         <h1>Create your account</h1>
         <p>Free and Fast, Let's go!</p>
         <StyledForm>
           <InputDiv>
-            <h3>Name</h3>
-            <Input placeholder="Name" {...register("name")}/>
-            {errors.name?.message && (<span>{errors.name.message}</span>)}
+            {errors.name?.message ? (
+              <span>{errors.name.message}</span>
+            ) : (
+              <label>Name</label>
+            )}
+            <Input placeholder="Name" {...register("name")} />
 
-            <h3>Email</h3>
-            <Input placeholder="Email" {...register("email")}/>
-            {errors.email?.message && (<span>{errors.email.message}</span>)}
+            {errors.email?.message ? (
+              <span>{errors.email.message}</span>
+            ) : (
+              <label>Email</label>
+            )}
+            <Input placeholder="Email" {...register("email")} />
 
-            <h3>Password</h3>
-            <Input placeholder="Password" {...register("password")}/>
-            {errors.password?.message && (<span>{errors.password.message}</span>)}
+            {errors.password?.message ? (
+              <span>{errors.password.message}</span>
+            ) : (
+              <label>Password</label>
+            )}
+            <Input
+              type="password"
+              placeholder="Password"
+              {...register("password")}
+            />
 
-            <h3>Confirm Password</h3>
-            <Input placeholder="Confirm Password" {...register("ConfirmPassword")}/>
-            {errors.ConfirmPassword?.message && (<span>{errors.ConfirmPassword.message}</span>)}
+            {errors.confirmPassword?.message ? (
+              <span>{errors.confirmPassword.message}</span>
+            ) : (
+              <label>Confirm Password</label>
+            )}
+            <Input
+              type="password"
+              placeholder="Confirm Password"
+              {...register("confirmPassword")}
+            />
 
-            <h3>About you</h3>
-            <Input placeholder="Teel us about you" {...register("bio")}/>
-            {errors.bio?.message && (<span>{errors.bio.message}</span>)}
+            {errors.bio?.message ? (
+              <span>{errors.bio.message}</span>
+            ) : (
+              <label>About you</label>
+            )}
+            <Input placeholder="Teel us about you" {...register("bio")} />
 
-            <h3>Contact</h3>
-            <Input placeholder="Contact" {...register("contact")}/>
-            {errors.contact?.message && (<span>{errors.contact.message}</span>)}
+            {errors.contact?.message ? (
+              <span>{errors.contact.message}</span>
+            ) : (
+              <label>Contact</label>
+            )}
+            <Input placeholder="Contact" {...register("contact")} />
 
-            <h3>Select Module</h3>
-            <select >
-            <option selected value='Choose your course module'>Choose your course module</option>
-            <option value="Primeiro módulo (Introdução ao Frontend)">Primeiro módulo (Introdução ao Frontend)</option>
-            <option value="Segundo módulo (Frontend Avançado)">Segundo módulo (Frontend Avançado)</option>
-            <option value="Terceiro módulo (Introdução ao Backend)">Terceiro módulo (Introdução ao Backend)</option>
-            <option value="Quarto módulo (Backend Avançado)">Quarto módulo (Backend Avançado)</option>
+            {errors.module?.message ? (
+              <span>{errors.module.message}</span>
+            ) : (
+              <label>Select Module</label>
+            )}
+            <select {...register("course_module")}>
+              <option value="Choose your course module">
+                Choose your course module
+              </option>
+              <option value="Primeiro módulo (Introdução ao Frontend)">
+                Primeiro módulo (Introdução ao Frontend)
+              </option>
+              <option value="Segundo módulo (Frontend Avançado)">
+                Segundo módulo (Frontend Avançado)
+              </option>
+              <option value="Terceiro módulo (Introdução ao Backend)">
+                Terceiro módulo (Introdução ao Backend)
+              </option>
+              <option value="Quarto módulo (Backend Avançado)">
+                Quarto módulo (Backend Avançado)
+              </option>
             </select>
 
             <Button type="submit"> Sign Up</Button>

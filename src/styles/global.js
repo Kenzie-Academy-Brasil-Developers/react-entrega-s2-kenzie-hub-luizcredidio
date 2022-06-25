@@ -6,13 +6,15 @@ export default createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
     outline: 0;
+    font-family: 'Inter'
 }
 
     :root{
         --pink: #FF577F;
         --darkPink: #FF427F;
-        ---pinkOff: #59323F;
+        --pinkOff: #59323F;
         --greyOne: #868E96;
+        --greyTwo: #343B41;
         --greyThree: #212529;
         --greyFour: #121214;
         --background: #000000;
