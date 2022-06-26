@@ -7,15 +7,20 @@ import LogoImg from "../../assets/Logo.png";
 import { ContainerSignIn, LoginBtn, SignUpBtn } from "./style";
 
 import {
-  Container,
   ContainerForm,
   InputDiv,
   StyledForm,
   Input,
-  Button,
 } from "../signUp/style";
 
 export default function SignIn() {
+
+  const history = useHistory();
+
+  function goDashboard() {
+    history.push("/dashboard");
+  }
+
   const formSchema = yup.object().shape({
     email: yup.string().required("E-mail required").email("Invalid E-mail"),
     password: yup.string().required("Password required"),
@@ -33,13 +38,16 @@ export default function SignIn() {
     const user = { email, password };
     api
       .post("/sessions", user)
-      .then((response) => console.log(response))
+      .then((response) => {
+        console.log(response);
+        localStorage.setItem("@token", JSON.stringify(response.data.token));
+        localStorage.setItem("@user", JSON.stringify(response.data.user));
+        goDashboard();
+      })
       .catch((err) => console.log(err));
   };
 
-  const history = useHistory();
-
-  function handleClick() {
+  function goBack() {
     history.push("/");
   }
 
@@ -61,12 +69,16 @@ export default function SignIn() {
             ) : (
               <label>Password</label>
             )}{" "}
-            <Input type='password' placeholder="Password" {...register("password")} />
+            <Input
+              type="password"
+              placeholder="Password"
+              {...register("password")}
+            />
             <LoginBtn type="submit">Login</LoginBtn>
             <p>Don't have an account ?</p>
           </InputDiv>
         </StyledForm>
-        <SignUpBtn onClick={() => handleClick()}>Sign Up</SignUpBtn>
+        <SignUpBtn onClick={() => goBack()}>Sign Up</SignUpBtn>
       </ContainerForm>
     </ContainerSignIn>
   );

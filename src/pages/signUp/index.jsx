@@ -77,14 +77,14 @@ export default function SignUp() {
   const history = useHistory();
 
   function handleClick() {
-    history.push("/signUp");
+    history.push("/signIn");
   }
 
   return (
     <Container>
       <DivHeader>
         <img src={LogoImg} alt="logo" />
-        <ButtonReturn onClick={() => handleClick("/signIn")}>
+        <ButtonReturn onClick={() => handleClick()}>
           Return
         </ButtonReturn>
       </DivHeader>

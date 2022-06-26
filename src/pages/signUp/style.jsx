@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  min-height: 100vh;
   height: 100%;
   padding: 50px;
   padding-top: 35px;
@@ -9,7 +10,7 @@ export const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   background-color: var(--greyFour);
-  img{
+  img {
     margin-bottom: 20px;
   }
   label {
@@ -40,7 +41,7 @@ export const ButtonReturn = styled.button`
   border-radius: 4px;
   border: none;
 
-  :active{
+  :active {
     background-color: var(--greyFour);
   }
 `;
@@ -71,7 +72,7 @@ export const ContainerForm = styled.div`
 export const StyledForm = styled.form`
   width: 95%;
   background-color: var(--greyThree);
-  span{
+  span {
     color: #b30505;
   }
   select {
@@ -79,7 +80,7 @@ export const StyledForm = styled.form`
     width: 100%;
     height: 48px;
     margin-bottom: 15px;
-    color: var(--greyOne)
+    color: var(--greyOne);
   }
 `;
 export const InputDiv = styled.div`
@@ -107,7 +108,7 @@ export const Button = styled.button`
   border: none;
   background-color: var(--pink);
   border-radius: 4px;
-  :active{
+  :active {
     background-color: var(--pinkOff);
   }
 `;

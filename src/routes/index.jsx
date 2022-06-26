@@ -2,18 +2,20 @@ import { Route, Switch } from "react-router-dom";
 import SignUp from "../pages/signUp";
 import SignIn from "../pages/signIn";
 import Dashboard from "../pages/Dashboard";
+import { useState } from "react";
 
 export default function Routes() {
+
   return (
     <Switch>
       <Route exact path="/">
-        <SignUp path="/signUp" />
+        <SignUp />
       </Route>
-      <Route>
-        <SignIn exact path="/signIn" />
+      <Route exact path="/signIn">
+        <SignIn />
       </Route>
-      <Route>
-        <Dashboard path="/dashboard" />
+      <Route exact path="/dashboard">
+        <Dashboard />
       </Route>
     </Switch>
   );
