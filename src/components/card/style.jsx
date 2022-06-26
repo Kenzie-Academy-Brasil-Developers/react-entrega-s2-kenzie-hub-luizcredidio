@@ -24,4 +24,4 @@ export const StyledCard = styled.div`
     font-size: 12.182px;
     color: var(--greyOne);
   }
-`;
+`; 
