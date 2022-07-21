@@ -32,12 +32,8 @@ export default function ModalComponent({stackList, setStackList,displayModal, hi
             },
           })
           .then((response) => {
-            console.log(stackList);
-
-            setStackList(...stackList, newStack)
-            console.log(response);
-            console.log(stackList);
-
+           console.log(response)
+           hideModal()
           })
           .catch((err) => console.log(err));
       };

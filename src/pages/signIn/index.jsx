@@ -41,7 +41,7 @@ export default function SignIn() {
       .then((response) => {
         console.log(response);
         localStorage.setItem("@token", JSON.stringify(response.data.token));
-        localStorage.setItem("@user", JSON.stringify(response.data.user));
+        localStorage.setItem("@user", JSON.stringify(response.data.user.id));
         goDashboard();
       })
       .catch((err) => console.log(err));

@@ -14,8 +14,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import api from "../../Service/api";
 import { useHistory } from "react-router-dom";
 import LogoImg from "../../assets/Logo.png";
-import { toast } from 'react-toastify';
-
+import { toast } from "react-toastify";
 
 export default function SignUp() {
   const formSchema = yup.object().shape({
@@ -65,12 +64,12 @@ export default function SignUp() {
       .post("/users", user)
       .then((response) => {
         console.log(response);
-        toast.success("Congratulations! Account created!")
+        toast.success("Congratulations! Account created!");
         history.push("/signIn");
       })
       .catch((err) => {
-        console.log(err)
-        toast.error("Something went wrong! Verify and try again")
+        console.log(err);
+        toast.error("Something went wrong! Verify and try again");
       });
   };
 
@@ -84,9 +83,7 @@ export default function SignUp() {
     <Container>
       <DivHeader>
         <img src={LogoImg} alt="logo" />
-        <ButtonReturn onClick={() => handleClick()}>
-          Return
-        </ButtonReturn>
+        <ButtonReturn onClick={() => handleClick()}>Login</ButtonReturn>
       </DivHeader>
 
       <ContainerForm onSubmit={handleSubmit(onSubmitFunction)}>
@@ -135,7 +132,7 @@ export default function SignUp() {
             ) : (
               <label>About you</label>
             )}
-            <Input placeholder="Teel us about you" {...register("bio")} />
+            <Input placeholder="Tell us about you" {...register("bio")} />
 
             {errors.contact?.message ? (
               <span>{errors.contact.message}</span>
